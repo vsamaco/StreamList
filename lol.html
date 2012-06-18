@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>lolist</title>
+	<script src="js/jquery.min.js"></script>
+  <script src="js/json2.js"></script>
+  <script src="js/underscore/underscore-min.js"></script>
+  <script src="js/backbone/backbone.js"></script>
+  <script src="js/backbone/backbone.localStorage.js"></script>
+	<script src="js/lol.js"></script>
+	<script type="text/template" id="streamer-template">
+		<div class="view">
+			<input class="toggle" type="checkbox" <%= online ? 'checked="checked"' : '' %> />
+			<label><%= name %></label>
+			<a class="remove">remove</a>
+		</div>
+		<input class="destroy" type="text" value="<%= name %>" />
+	</script>
+	
+	<script type="text/template" id="stats-template">
+		<div class="online-count"><b><%= online %></b> online</div>
+	</script>
+</head>
+<body>
+	<div id="lolapp">
+		<header>
+			<h1>LoL Streamers</h1>
+			<input id="new-streamer" placeholder="Add new streamer" type="text"/>
+		</header>
+		<section id="main">
+			<ul id="streamer-list"></ul>
+		</section>
+		<footer>
+			<div id="online-count"></div>
+		</footer>
+	</div>
+</body>
+</html>
