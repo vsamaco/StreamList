@@ -98,7 +98,7 @@ $(function(){
       this.input = this.$("#new-streamer");
       
       Streamers.bind('add', this.addOne, this);
-      Streamers.bind('reset', this.addALl, this);
+      Streamers.bind('reset', this.addAll, this);
       Streamers.bind('all', this.render, this);
       
       this.footer = this.$('footer');
@@ -136,7 +136,6 @@ $(function(){
       if (!this.input.val()) return;
       
       Streamers.create({name: this.input.val()});
-      console.log('done create');
       this.input.val('');
     }
   });
