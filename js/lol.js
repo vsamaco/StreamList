@@ -60,6 +60,7 @@ $(function(){
       console.log('streamerview render');
       this.$el.html(this.template(this.model.toJSON()));
       this.$el.toggleClass('online', this.model.get('online'));
+      this.$el.toggleClass('offline', !this.model.get('online'));
       this.input = this.$('.edit');
       return this;
     },
@@ -94,7 +95,8 @@ $(function(){
     el: $('#lolapp'),
     statsTemplate: _.template($('#stats-template').html()),
     events: {
-      "keypress #new-streamer"    : "createOnEnter"
+      "keypress #new-streamer"    : "createOnEnter",
+      "click .toggle"             : "updateList"
     },
     
     initialize: function() {
@@ -143,7 +145,14 @@ $(function(){
     },
     
     addAll: function() {
+      console.log('addall');
       Streamers.each(this.addOne);
+    },
+    
+    updateList: function() {
+      console.log('update list');
+      this.$('#offline-list li.online').remove();
+      this.$('#online-list li.offline').remove();
     },
     
     createOnEnter: function(e) {
