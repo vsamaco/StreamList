@@ -20,6 +20,7 @@
 	
 	<script type="text/template" id="stats-template">
 		<div class="online-count"><b><%= online %></b> online</div>
+		<div class="offline-count"><b><%= offline %></b> offline</div>
 	</script>
 </head>
 <body>
@@ -29,7 +30,12 @@
 			<input id="new-streamer" placeholder="Add new streamer" type="text"/>
 		</header>
 		<section id="main">
+			<h3 class="all">All</h3>
 			<ul id="streamer-list"></ul>
+			<h3 class="offline">Offline</h3>
+			<ul id="offline-list"></ul>
+			<h3 class="online">Online</h3>
+			<ul id="online-list"></ul>
 		</section>
 		<footer>
 			<div id="online-count"></div>

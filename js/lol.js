@@ -6,7 +6,7 @@ $(function(){
         name: "",
         stream: "",
         viewers: 0,
-        online: true
+        online: false
       };
     },
     
@@ -31,6 +31,9 @@ $(function(){
     localStorage: new Store("streamers-backbone"),
     online: function() {
       return this.filter(function(streamer){ return streamer.get('online'); });
+    },
+    offline: function() {
+      return this.filter(function(streamer){ return !streamer.get('online'); });
     }
   });
   
@@ -42,7 +45,7 @@ $(function(){
     events: {
       "click .toggle"     : "toggleOnline",
       "dblclick .view"    : "edit",
-      "click a.destroy"   : "clear",
+      "click a.remove"    : "clear",
       "keypress .edit"    : "updateOnEnter",
       "blur .edit"        : "close"
     },
@@ -82,6 +85,7 @@ $(function(){
     },
     
     clear: function() {
+      console.log('clear streamer');
       this.model.clear();
     }
   });
@@ -110,11 +114,12 @@ $(function(){
     render: function() {
       console.log('appview render');
       var online = Streamers.online().length;
+      var offline = Streamers.offline().length
       
       if(Streamers.length) {
         this.main.show();
         this.footer.show();
-        this.footer.html(this.statsTemplate({online: online}));
+        this.footer.html(this.statsTemplate({online: online, offline: offline}));
       } else {
         this.main.hide();
         this.footer.hide();
@@ -124,7 +129,17 @@ $(function(){
     addOne: function(streamer) {
       console.log('addone');
       var view = new StreamerView({model: streamer});
-      this.$('#streamer-list').append(view.render().el);
+      if(streamer.get('online')) {
+        console.log('add online');
+        this.$('#online-list').append(view.render().el);
+      } else {
+        console.log('add offline');
+        this.$('#offline-list').append(view.render().el);
+      }
+      
+      // Add to all list
+      var view_all = new StreamerView({model: streamer});
+      this.$('#streamer-list').append(view_all.render().el);
     },
     
     addAll: function() {
