@@ -11,7 +11,7 @@ $(function(){
     },
     
     initialize: function() {
-      console.log('streamer initialize');
+      // console.log('streamer initialize');
       if (!this.get("name")) {
         this.set({"name": this.defaults.name});
       }
@@ -51,13 +51,13 @@ $(function(){
     },
     
     initialize: function() {
-      console.log('streamerview intialize');
+      // console.log('streamerview intialize');
       this.model.bind('change', this.render, this);
       this.model.bind('destroy', this.remove, this);
     },
     
     render: function() {
-      console.log('streamerview render');
+      // console.log('streamerview render');
       this.$el.html(this.template(this.model.toJSON()));
       this.$el.toggleClass('online', this.model.get('online'));
       this.$el.toggleClass('offline', !this.model.get('online'));
@@ -99,7 +99,7 @@ $(function(){
     },
     
     initialize: function() {
-      console.log('appview intialize');
+      // console.log('appview intialize');
       this.input = this.$("#new-streamer");
       
       Streamers.bind('add', this.addOne, this);
@@ -114,7 +114,7 @@ $(function(){
     },
     
     render: function() {
-      console.log('appview render');
+      // console.log('appview render');
       var online = Streamers.online().length;
       var offline = Streamers.offline().length
       
@@ -130,21 +130,17 @@ $(function(){
     
     addOne: function(streamer) {
       console.log('addone');
-      var view = new StreamerView({model: streamer});
-      if(streamer.get('online')) {
-        this.$('#online-list').append(view.render().el);
-      } else {
-        this.$('#offline-list').append(view.render().el);
-      }
-      
-      // Add to all list
       var view_all = new StreamerView({model: streamer});
       this.$('#streamer-list').append(view_all.render().el);
     },
     
     addAll: function() {
       console.log('addall');
+      // Populate all list
       Streamers.each(this.addOne);
+      
+      // Populate online/offline list
+      Streamers.each(this.updateList);
     },
     
     updateList: function(streamer) {
