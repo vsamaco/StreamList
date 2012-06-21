@@ -105,7 +105,7 @@ $(function(){
       Streamers.bind('add', this.addOne, this);
       Streamers.bind('reset', this.addAll, this);
       Streamers.bind('all', this.render, this);
-      Streamers.bind('change', this.updateList, this);
+      Streamers.bind('change:online', this.updateList, this);
       
       this.footer = this.$('footer');
       this.main = $('#main');
@@ -151,7 +151,7 @@ $(function(){
       } else {
         this.$('#offline-list').append(view.render().el);
       }
-      
+    
       this.$('#offline-list li.online').remove();
       this.$('#online-list li.offline').remove();
     },
