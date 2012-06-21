@@ -95,8 +95,7 @@ $(function(){
     el: $('#lolapp'),
     statsTemplate: _.template($('#stats-template').html()),
     events: {
-      "keypress #new-streamer"    : "createOnEnter",
-      "click .toggle"             : "updateList"
+      "keypress #new-streamer"    : "createOnEnter"
     },
     
     initialize: function() {
@@ -106,6 +105,7 @@ $(function(){
       Streamers.bind('add', this.addOne, this);
       Streamers.bind('reset', this.addAll, this);
       Streamers.bind('all', this.render, this);
+      Streamers.bind('change', this.updateList, this);
       
       this.footer = this.$('footer');
       this.main = $('#main');
@@ -132,10 +132,8 @@ $(function(){
       console.log('addone');
       var view = new StreamerView({model: streamer});
       if(streamer.get('online')) {
-        console.log('add online');
         this.$('#online-list').append(view.render().el);
       } else {
-        console.log('add offline');
         this.$('#offline-list').append(view.render().el);
       }
       
@@ -149,8 +147,15 @@ $(function(){
       Streamers.each(this.addOne);
     },
     
-    updateList: function() {
-      console.log('update list');
+    updateList: function(streamer) {
+      console.log('update list:'+streamer.get('name')+':'+streamer.get('online'));
+      var view = new StreamerView({model: streamer});
+      if(streamer.get('online') === true) {
+        this.$('#online-list').append(view.render().el);
+      } else {
+        this.$('#offline-list').append(view.render().el);
+      }
+      
       this.$('#offline-list li.online').remove();
       this.$('#online-list li.offline').remove();
     },
