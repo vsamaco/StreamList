@@ -165,3 +165,7 @@ input.edit {
 .group ul li:hover .remove {
   display: block;
 }
+/* line 126, styles.scss */
+.group.collapsed ul {
+  display: none;
+}

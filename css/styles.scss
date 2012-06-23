@@ -122,4 +122,9 @@ input.edit {
     }
   }
   
+  &.collapsed {
+    ul {
+      display: none;
+    }
+  }
 }
