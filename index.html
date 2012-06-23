@@ -34,18 +34,36 @@
 		<section id="main">
 			<section id="group-all" class="group">
 				<div class="header">
-					<span class="collapsed">▼</span>
+					<div class="toggle-group collapsed">
+						<span class="collapsed">▼<span>
+					</div>
 					<h3 class="all">All</h3>
-					<span class="count">5</span>
+					<span class="count"></span>
 				</div>
-				<ul id="streamer-list"></ul>
+				<ul id="streamer-list" class="list"></ul>
 			</section>
 			
+			<section id="group-offline" class="group">
+				<div class="header">
+					<div class="toggle-group collapsed">
+						<span class="collapsed">▼<span>
+					</div>
+					<h3 class="all">Offline</h3>
+					<span class="count"></span>
+				</div>
+				<ul id="offline-list" class="list"></ul>
+			</section>
 			
-			<h3 class="offline">Offline</h3>
-			<ul id="offline-list"></ul>
-			<h3 class="online">Online</h3>
-			<ul id="online-list"></ul>
+			<section id="group-online" class="group">
+				<div class="header">
+					<div class="toggle-group collapsed">
+						<span class="collapsed">▼<span>
+					</div>
+					<h3 class="all">Online</h3>
+					<span class="count"></span>
+				</div>
+				<ul id="online-list" class="list"></ul>
+			</section>
 		</section>
 		<footer>
 			<div id="online-count"></div>
