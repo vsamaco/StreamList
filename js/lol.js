@@ -132,7 +132,8 @@ $(function(){
   });
   
   var OfflineStreamerGroupView = StreamerGroupView.extend({
-    el: $('group-offline'),
+    el: $('#group-offline'),
+    
     addStreamer: function(streamer) {
       console.log('add offline streamer');
       var view = new StreamerView({model: streamer});
@@ -152,7 +153,7 @@ $(function(){
   });
   
   var OnlineStreamerGroupView = OfflineStreamerGroupView.extend({
-    el: $('group-online'),
+    el: $('#group-online'),
         
     addStreamer: function(streamer) {
       console.log('add online streamer');
