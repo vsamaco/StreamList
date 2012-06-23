@@ -104,8 +104,13 @@ input.edit {
         height: 20px;
         display: none;
         text-indent: -10000px;
+        cursor: pointer;
         
         background: url(../images/destroy.png) no-repeat 0 0;
+        
+        &:hover {
+          background: url(../images/destroy.png) no-repeat 0 -20px;
+        }
       }
       
       &:hover {
