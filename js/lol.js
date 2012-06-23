@@ -109,6 +109,7 @@ $(function(){
       
       this.footer = this.$('footer');
       this.main = $('#main');
+      this.group_all = $('#group-all');
       
       Streamers.fetch();
     },
@@ -117,11 +118,13 @@ $(function(){
       // console.log('appview render');
       var online = Streamers.online().length;
       var offline = Streamers.offline().length
+      var all = Streamers.length;
       
       if(Streamers.length) {
         this.main.show();
         this.footer.show();
         this.footer.html(this.statsTemplate({online: online, offline: offline}));
+        $('.count', this.group_all).html(all);
       } else {
         this.main.hide();
         this.footer.hide();

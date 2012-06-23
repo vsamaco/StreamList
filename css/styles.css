@@ -137,14 +137,15 @@ input.edit {
 .group .header .count {
   position: absolute;
   right: 5px;
+  top: 3px;
 }
-/* line 94, styles.scss */
+/* line 95, styles.scss */
 .group ul li {
   border-bottom: 1px solid #cccccc;
   padding: 3px 3px;
   position: relative;
 }
-/* line 99, styles.scss */
+/* line 100, styles.scss */
 .group ul li .remove {
   position: absolute;
   top: 2px;
@@ -156,11 +157,11 @@ input.edit {
   cursor: pointer;
   background: url(../images/destroy.png) no-repeat 0 0;
 }
-/* line 111, styles.scss */
+/* line 112, styles.scss */
 .group ul li .remove:hover {
   background: url(../images/destroy.png) no-repeat 0 -20px;
 }
-/* line 117, styles.scss */
+/* line 118, styles.scss */
 .group ul li:hover .remove {
   display: block;
 }
