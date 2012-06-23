@@ -1,0 +1,161 @@
+/* line 17, ../../../../../../Applications/Scout.app/Contents/Resources/vendor/gems/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* line 20, ../../../../../../Applications/Scout.app/Contents/Resources/vendor/gems/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+body {
+  line-height: 1;
+}
+
+/* line 22, ../../../../../../Applications/Scout.app/Contents/Resources/vendor/gems/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 24, ../../../../../../Applications/Scout.app/Contents/Resources/vendor/gems/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 26, ../../../../../../Applications/Scout.app/Contents/Resources/vendor/gems/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* line 28, ../../../../../../Applications/Scout.app/Contents/Resources/vendor/gems/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: none;
+}
+/* line 101, ../../../../../../Applications/Scout.app/Contents/Resources/vendor/gems/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+/* line 30, ../../../../../../Applications/Scout.app/Contents/Resources/vendor/gems/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none;
+}
+
+/* line 114, ../../../../../../Applications/Scout.app/Contents/Resources/vendor/gems/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+  display: block;
+}
+
+/* line 24, styles.scss */
+body {
+  font-family: Helvetica, Arial, san-serif;
+  color: black;
+  font-size: 14px;
+  line-height: 1.4em;
+}
+
+/* line 31, styles.scss */
+h1 {
+  font-size: 24px;
+  line-height: 1.8em;
+}
+
+/* line 36, styles.scss */
+h2 {
+  font-size: 18px;
+  line-height: 1.6em;
+}
+
+/* line 41, styles.scss */
+h3 {
+  font-size: 16px;
+  line-height: 1.5em;
+}
+
+/* line 46, styles.scss */
+#lolapp {
+  -moz-box-shadow: 0px 0px 5px #333333;
+  -webkit-box-shadow: 0px 0px 5px #333333;
+  -o-box-shadow: 0px 0px 5px #333333;
+  box-shadow: 0px 0px 5px #333333;
+  width: 500px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+/* line 55, styles.scss */
+input.edit {
+  display: none;
+}
+
+/* line 60, styles.scss */
+.editing input.edit {
+  display: block;
+}
+/* line 63, styles.scss */
+.editing .view {
+  display: none;
+}
+
+/* line 70, styles.scss */
+.group .header {
+  overflow: hidden;
+  *zoom: 1;
+  background-color: #00416d;
+  color: white;
+  position: relative;
+  padding: 1px 3px;
+}
+/* line 77, styles.scss */
+.group .header .collapsed, .group .header h3 {
+  float: left;
+}
+/* line 81, styles.scss */
+.group .header .collapsed {
+  font-size: 10px;
+  line-height: 20px;
+  width: 15px;
+}
+/* line 87, styles.scss */
+.group .header .count {
+  position: absolute;
+  right: 5px;
+}
+/* line 94, styles.scss */
+.group ul li {
+  border-bottom: 1px solid #cccccc;
+  padding: 3px 3px;
+  position: relative;
+}
+/* line 99, styles.scss */
+.group ul li .remove {
+  position: absolute;
+  top: 2px;
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  display: none;
+  text-indent: -10000px;
+  background: url(../images/destroy.png) no-repeat 0 0;
+}
+/* line 112, styles.scss */
+.group ul li:hover .remove {
+  display: block;
+}

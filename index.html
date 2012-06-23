@@ -3,6 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<title>lolist</title>
+	<link href="css/styles.css" media="all" rel="stylesheet" type="text/css"/>
+	
 	<script src="js/jquery.min.js"></script>
   <script src="js/json2.js"></script>
   <script src="js/underscore/underscore-min.js"></script>
@@ -30,8 +32,16 @@
 			<input id="new-streamer" placeholder="Add new streamer" type="text"/>
 		</header>
 		<section id="main">
-			<h3 class="all">All</h3>
-			<ul id="streamer-list"></ul>
+			<section class="group all">
+				<div class="header">
+					<span class="collapsed">▼</span>
+					<h3 class="all">All</h3>
+					<span class="count">5</span>
+				</div>
+				<ul id="streamer-list"></ul>
+			</section>
+			
+			
 			<h3 class="offline">Offline</h3>
 			<ul id="offline-list"></ul>
 			<h3 class="online">Online</h3>
