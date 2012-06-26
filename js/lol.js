@@ -148,6 +148,11 @@ $(function(){
       _.bindAll(this, 'addStreamer', 'addAllStreamers');
       StreamerGroupView.prototype.initialize.apply(this, options);
     },
+    render: function() {
+      var streamer_count = Streamers.offline().length;
+      
+      this.count.html(streamer_count);
+    },
     addStreamer: function(streamer) {
       if (streamer.get('online') === false) {
         console.log('add offline streamer');
@@ -170,6 +175,12 @@ $(function(){
     initialize: function(options) {
       _.bindAll(this, 'addStreamer', 'addAllStreamers');
       StreamerGroupView.prototype.initialize.apply(this, options);
+    },
+    render: function() {
+      console.log('streamer group render');
+      var streamer_count = Streamers.online().length;
+      
+      this.count.html(streamer_count);
     },
     addStreamer: function(streamer) {
       if (streamer.get('online') === true) {
