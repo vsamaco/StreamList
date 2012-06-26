@@ -113,6 +113,10 @@ $(function(){
       this.toggle = this.$('.toggle-group');
       this.list = this.$('ul.list');
       
+      // initialize option el
+      this.el = this.options.el;
+      console.log(this.el);
+      
       Streamers.bind('add', this.addStreamer, this);
       Streamers.bind('reset', this.addAllStreamers, this);
       Streamers.bind('all', this.render, this);
@@ -141,13 +145,14 @@ $(function(){
   });
   
   var OfflineStreamerGroupView = StreamerGroupView.extend({
-    el: $('#group-offline'),
-    
     addStreamer: function(streamer) {
       if (streamer.get('online') === false) {
         console.log('add offline streamer');
         var view = new StreamerView({model: streamer, toggle_unrender: true});
-        this.$('#offline-list').append(view.render().el);
+        
+        // Why this.el undefined!
+        $('ul', this.el).append(view.render().el);
+        console.log(this.el);
       }
     },
     addAllStreamers: function() {
@@ -168,7 +173,7 @@ $(function(){
       if (streamer.get('online') === true) {
         console.log('add online streamer');
         var view = new StreamerView({model: streamer, toggle_unrender: true});
-        this.$('#online-list').append(view.render().el);
+        $('#online-list').append(view.render().el);
       }
     },
     addAllStreamers: function() {
@@ -203,7 +208,7 @@ $(function(){
       this.group_all = $('#group-all');
       
       this.all_streamers = new StreamerGroupView();
-      this.offline_streamers = new OfflineStreamerGroupView();
+      this.offline_streamers = new OfflineStreamerGroupView({ el: this.$('#group-offline') });
       this.online_streamers = new OnlineStreamerGroupView();
       //this.offline_streamers = new StreamerGroupView({ el: this.$('#group-offline') });
       
