@@ -95,7 +95,7 @@ $(function(){
     unrender: function() {
       if (this.toggle_unrender) {
         console.log('unrender');
-        $(this.el).remove();
+        this.remove();
       }
     }
   });
@@ -144,9 +144,11 @@ $(function(){
     el: $('#group-offline'),
     
     addStreamer: function(streamer) {
-      console.log('add offline streamer');
-      var view = new StreamerView({model: streamer, toggle_unrender: true});
-      this.$('#offline-list').append(view.render().el);
+      if (streamer.get('online') === false) {
+        console.log('add offline streamer');
+        var view = new StreamerView({model: streamer, toggle_unrender: true});
+        this.$('#offline-list').append(view.render().el);
+      }
     },
     addAllStreamers: function() {
       _.each(Streamers.offline(), this.addStreamer);
@@ -163,9 +165,11 @@ $(function(){
     el: $('#group-online'),
         
     addStreamer: function(streamer) {
-      console.log('add online streamer');
-      var view = new StreamerView({model: streamer, toggle_unrender: true});
-      this.$('#online-list').append(view.render().el);
+      if (streamer.get('online') === true) {
+        console.log('add online streamer');
+        var view = new StreamerView({model: streamer, toggle_unrender: true});
+        this.$('#online-list').append(view.render().el);
+      }
     },
     addAllStreamers: function() {
       _.each(Streamers.online(), this.addStreamer);
