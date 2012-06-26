@@ -50,10 +50,12 @@ $(function(){
       "blur .edit"        : "close"
     },
     
-    initialize: function() {
+    initialize: function(options) {
       // console.log('streamerview intialize');
       this.model.bind('change', this.render, this);
       this.model.bind('destroy', this.remove, this);
+      this.model.bind('change:online', this.unrender, this);
+      this.toggle_unrender = false || options.toggle_unrender;
     },
     
     render: function() {
@@ -88,6 +90,13 @@ $(function(){
     clear: function() {
       console.log('clear streamer');
       this.model.clear();
+    },
+    
+    unrender: function() {
+      if (this.toggle_unrender) {
+        console.log('unrender');
+        $(this.el).remove();
+      }
     }
   });
   
@@ -136,7 +145,7 @@ $(function(){
     
     addStreamer: function(streamer) {
       console.log('add offline streamer');
-      var view = new StreamerView({model: streamer});
+      var view = new StreamerView({model: streamer, toggle_unrender: true});
       this.$('#offline-list').append(view.render().el);
     },
     addAllStreamers: function() {
@@ -147,8 +156,6 @@ $(function(){
       if(streamer.get('online') === false) {
         this.addStreamer(streamer);
       }
-      
-      this.$('#offline-list li.online').remove();
     }
   });
   
@@ -157,7 +164,7 @@ $(function(){
         
     addStreamer: function(streamer) {
       console.log('add online streamer');
-      var view = new StreamerView({model: streamer});
+      var view = new StreamerView({model: streamer, toggle_unrender: true});
       this.$('#online-list').append(view.render().el);
     },
     addAllStreamers: function() {
@@ -168,8 +175,6 @@ $(function(){
       if(streamer.get('online') == true) {
         this.addStreamer(streamer);
       }
-      
-      this.$('#online-list li.offline').remove();
     }
   });
   
