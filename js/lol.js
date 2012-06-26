@@ -115,7 +115,6 @@ $(function(){
       
       // initialize option el
       this.el = this.options.el;
-      console.log(this.el);
       
       Streamers.bind('add', this.addStreamer, this);
       Streamers.bind('reset', this.addAllStreamers, this);
@@ -145,14 +144,15 @@ $(function(){
   });
   
   var OfflineStreamerGroupView = StreamerGroupView.extend({
+    initialize: function(options) {
+      _.bindAll(this, 'addStreamer', 'addAllStreamers');
+      StreamerGroupView.prototype.initialize.apply(this, options);
+    },
     addStreamer: function(streamer) {
       if (streamer.get('online') === false) {
         console.log('add offline streamer');
         var view = new StreamerView({model: streamer, toggle_unrender: true});
-        
-        // Why this.el undefined!
         $('ul', this.el).append(view.render().el);
-        console.log(this.el);
       }
     },
     addAllStreamers: function() {
@@ -167,13 +167,15 @@ $(function(){
   });
   
   var OnlineStreamerGroupView = OfflineStreamerGroupView.extend({
-    el: $('#group-online'),
-        
+    initialize: function(options) {
+      _.bindAll(this, 'addStreamer', 'addAllStreamers');
+      StreamerGroupView.prototype.initialize.apply(this, options);
+    },
     addStreamer: function(streamer) {
       if (streamer.get('online') === true) {
         console.log('add online streamer');
         var view = new StreamerView({model: streamer, toggle_unrender: true});
-        $('#online-list').append(view.render().el);
+        $('ul', this.el).append(view.render().el);
       }
     },
     addAllStreamers: function() {
@@ -209,7 +211,7 @@ $(function(){
       
       this.all_streamers = new StreamerGroupView();
       this.offline_streamers = new OfflineStreamerGroupView({ el: this.$('#group-offline') });
-      this.online_streamers = new OnlineStreamerGroupView();
+      this.online_streamers = new OnlineStreamerGroupView({ el: this.$('#group-online') });
       //this.offline_streamers = new StreamerGroupView({ el: this.$('#group-offline') });
       
       Streamers.fetch();
