@@ -37,8 +37,6 @@ $(function(){
     }
   });
   
-  // var Streamers = new StreamerList;
-  
   var StreamerView = Backbone.View.extend({
     tagName: "li",
     template: _.template($('#streamer-template').html()),
