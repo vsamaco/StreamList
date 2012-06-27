@@ -172,66 +172,6 @@ $(function(){
     }
   });
   
-  /*var OfflineStreamerGroupView = StreamerGroupView.extend({
-    initialize: function(options) {
-      _.bindAll(this, 'addStreamer', 'addAllStreamers');
-      StreamerGroupView.prototype.initialize.apply(this, this.options);
-    },
-    render: function() {
-      var streamer_count = this.collection.offline().length;
-      
-      this.count.html(streamer_count);
-    },
-    addStreamer: function(streamer) {
-      if (streamer.get('online') === false) {
-        console.log('add offline streamer2');
-        var view = new StreamerView({model: streamer, toggle_unrender: true});
-        $('ul', this.el).append(view.render().el);
-      }
-    },
-    addAllStreamers: function() {
-      //this.collection.offline().each(this.addStreamer);
-      _.each(this.collection.offline(), this.addStreamer);
-    },
-    updateList: function(streamer) {
-      console.log('update list:'+ streamer.get('name'));
-      if(streamer.get('online') === false) {
-        this.addStreamer(streamer);
-      }
-    }
-  });
-  
-  var OnlineStreamerGroupView = OfflineStreamerGroupView.extend({
-    initialize: function(options) {
-      console.log('online group initialize');
-      _.bindAll(this, 'addStreamer', 'addAllStreamers');
-      StreamerGroupView.prototype.initialize.apply(this, this.options);
-    },
-    render: function() {
-      console.log('streamer group render');
-      var streamer_count = this.collection.online().length;
-      
-      this.count.html(streamer_count);
-    },
-    addStreamer: function(streamer) {
-      if (streamer.get('online') === true) {
-        console.log('add online streamer3');
-        var view = new StreamerView({model: streamer, toggle_unrender: true});
-        $('ul', this.el).append(view.render().el);
-      }
-    },
-    addAllStreamers: function() {
-      //this.collection.online().each(this.addStreamer);
-      _.each(this.collection.online(), this.addStreamer);
-    },
-    updateList: function(streamer) {
-      console.log('update list:'+ streamer.get('name'));
-      if(streamer.get('online') == true) {
-        this.addStreamer(streamer);
-      }
-    }
-  });*/
-  
   var LoLAppView = Backbone.View.extend({
     el: $('#lolapp'),
     statsTemplate: _.template($('#stats-template').html()),
