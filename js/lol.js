@@ -107,7 +107,7 @@ $(function(){
     },
     
     initialize: function(options) {
-      console.log('streamer group initialize');
+      // console.log('streamer group initialize');
       _.bindAll(this, 'addStreamer', 'addAllStreamers', 'render');
       
       // initialize option el
@@ -119,8 +119,6 @@ $(function(){
       this.list = this.$('ul.list', this.el);
       this.collection = this.options.collection;
       this.filter = '' || this.options.filter;
-      
-      console.log('filter:'+this.filter);
 
       this.collection.bind('add', this.addStreamer, this);
       this.collection.bind('reset', this.addAllStreamers, this);
@@ -128,7 +126,7 @@ $(function(){
     },
     
     render: function() {
-      console.log('streamer group render');
+      // console.log('streamer group render');
       var streamer_count = (this.filter == 'online' ? this.collection.online() 
       : this.filter == 'offline' ? this.collection.offline() 
       : this.collection).length;
@@ -138,31 +136,30 @@ $(function(){
     
     addStreamer: function(streamer) {
       if (this.filter != '' && ( (this.filter == 'online' && streamer.get('online')) || (this.filter == 'offline' && !streamer.get('online'))  )) {
-        console.log('add streamer filter ' + this.filter);
+        // console.log('add streamer filter ' + this.filter);
         var view = new StreamerView({model: streamer, toggle_unrender: true});
         this.$('ul', this.el).append(view.render().el);
       }
       else if(this.filter == '') {
-        console.log('add streamer none');
+        // console.log('add streamer none');
         var view_all = new StreamerView({model: streamer});
         this.$('ul', this.el).append(view_all.render().el);
       }
     },
     
     addAllStreamers: function() {
-      console.log('add all streamers');
       if (this.filter == 'online') {
-        console.log('add streamers online');
+        // console.log('add streamers online');
         // _.each(this.collection.online(), this.addStreamer);
         this.collection.online().each(this.addStreamer);
       }
       else if (this.filter == 'offline') {
-        console.log('add streamers offline');
+        // console.log('add streamers offline');
         // _.each(this.collection.offline(), this.addStreamer);
         this.collection.offline().each(this.addStreamer);
       }
       else {
-        console.log('add streamers none');
+        // console.log('add streamers none');
         this.collection.each(this.addStreamer);
       }
     },
