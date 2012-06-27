@@ -121,6 +121,7 @@ $(function(){
       this.collection.bind('add', this.addStreamer, this);
       this.collection.bind('reset', this.addAllStreamers, this);
       this.collection.bind('all', this.render, this);
+      this.collection.bind('change:online', this.toggleStreamer, this);
     },
     
     render: function() {
@@ -160,6 +161,15 @@ $(function(){
       }
     },
     
+    toggleStreamer: function(streamer) {
+      if(this.filter != '' && ( 
+        (this.filter == 'online' && streamer.get('online')) 
+        || (this.filter == 'offline' && !streamer.get('online')))) {
+        var view = new StreamerView({model: streamer, toggle_unrender: true});
+        this.$('ul', this.el).append(view.render().el);
+      }
+    },
+    
     toggleGroup: function() {
       this.$el.toggleClass("collapsed");
     }
@@ -181,7 +191,7 @@ $(function(){
       //Streamers.bind('add', this.addOne, this);
       //Streamers.bind('reset', this.addAll, this);
       //Streamers.bind('all', this.render, this);
-      this.Streamers.bind('change:online', this.updateList, this);
+      //this.Streamers.bind('change:online', this.updateList, this);
       
       this.footer = this.$('footer');
       this.main = $('#main');
