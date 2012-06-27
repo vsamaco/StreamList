@@ -234,9 +234,6 @@ $(function(){
       } else {
         this.offline_streamers.addStreamer(streamer);
       }
-    
-      //this.$('#offline-list li.online').remove();
-      //this.$('#online-list li.offline').remove();
     },
     
     createOnEnter: function(e) {
