@@ -30,14 +30,14 @@ $(function(){
     model: Streamer,
     localStorage: new Store("streamers-backbone"),
     online: function() {
-      return this.filter(function(streamer){ return streamer.get('online'); });
+      return new Backbone.Collection(this.filter(function(streamer){ return streamer.get('online'); }));
     },
     offline: function() {
-      return this.filter(function(streamer){ return !streamer.get('online'); });
+      return new Backbone.Collection(this.filter(function(streamer){ return !streamer.get('online'); }));
     }
   });
   
-  var Streamers = new StreamerList;
+  // var Streamers = new StreamerList;
   
   var StreamerView = Backbone.View.extend({
     tagName: "li",
@@ -108,34 +108,63 @@ $(function(){
     
     initialize: function(options) {
       console.log('streamer group initialize');
-      this.header = this.$('.header');
-      this.count = this.$('.count');
-      this.toggle = this.$('.toggle-group');
-      this.list = this.$('ul.list');
+      _.bindAll(this, 'addStreamer', 'addAllStreamers', 'render');
       
       // initialize option el
       this.el = this.options.el;
       
-      Streamers.bind('add', this.addStreamer, this);
-      Streamers.bind('reset', this.addAllStreamers, this);
-      Streamers.bind('all', this.render, this);
+      this.header = this.$('.header', this.el);
+      this.count = this.$('.count', this.el);
+      this.toggle = this.$('.toggle-group', this.el);
+      this.list = this.$('ul.list', this.el);
+      this.collection = this.options.collection;
+      this.filter = '' || this.options.filter;
+      
+      console.log('filter:'+this.filter);
+
+      this.collection.bind('add', this.addStreamer, this);
+      this.collection.bind('reset', this.addAllStreamers, this);
+      this.collection.bind('all', this.render, this);
     },
     
     render: function() {
       console.log('streamer group render');
-      var streamer_count = Streamers.length;
+      var streamer_count = (this.filter == 'online' ? this.collection.online() 
+      : this.filter == 'offline' ? this.collection.offline() 
+      : this.collection).length;
       
       this.count.html(streamer_count);
     },
     
     addStreamer: function(streamer) {
-      console.log('add streamer');
-      var view_all = new StreamerView({model: streamer});
-      this.$('#streamer-list').append(view_all.render().el);
+      if (this.filter != '') {
+        console.log('add streamer filter ' + this.filter);
+        var view = new StreamerView({model: streamer, toggle_unrender: true});
+        this.$('ul', this.el).append(view.render().el);
+      }
+      else if(this.filter == '') {
+        console.log('add streamer none');
+        var view_all = new StreamerView({model: streamer});
+        this.$('ul', this.el).append(view_all.render().el);
+      }
     },
     
     addAllStreamers: function() {
-      Streamers.each(this.addStreamer);
+      console.log('add all streamers');
+      if (this.filter == 'online') {
+        console.log('add streamers online');
+        // _.each(this.collection.online(), this.addStreamer);
+        this.collection.online().each(this.addStreamer);
+      }
+      else if (this.filter == 'offline') {
+        console.log('add streamers offline');
+        // _.each(this.collection.offline(), this.addStreamer);
+        this.collection.offline().each(this.addStreamer);
+      }
+      else {
+        console.log('add streamers none');
+        this.collection.each(this.addStreamer);
+      }
     },
     
     toggleGroup: function() {
@@ -143,25 +172,26 @@ $(function(){
     }
   });
   
-  var OfflineStreamerGroupView = StreamerGroupView.extend({
+  /*var OfflineStreamerGroupView = StreamerGroupView.extend({
     initialize: function(options) {
       _.bindAll(this, 'addStreamer', 'addAllStreamers');
-      StreamerGroupView.prototype.initialize.apply(this, options);
+      StreamerGroupView.prototype.initialize.apply(this, this.options);
     },
     render: function() {
-      var streamer_count = Streamers.offline().length;
+      var streamer_count = this.collection.offline().length;
       
       this.count.html(streamer_count);
     },
     addStreamer: function(streamer) {
       if (streamer.get('online') === false) {
-        console.log('add offline streamer');
+        console.log('add offline streamer2');
         var view = new StreamerView({model: streamer, toggle_unrender: true});
         $('ul', this.el).append(view.render().el);
       }
     },
     addAllStreamers: function() {
-      _.each(Streamers.offline(), this.addStreamer);
+      //this.collection.offline().each(this.addStreamer);
+      _.each(this.collection.offline(), this.addStreamer);
     },
     updateList: function(streamer) {
       console.log('update list:'+ streamer.get('name'));
@@ -173,24 +203,26 @@ $(function(){
   
   var OnlineStreamerGroupView = OfflineStreamerGroupView.extend({
     initialize: function(options) {
+      console.log('online group initialize');
       _.bindAll(this, 'addStreamer', 'addAllStreamers');
-      StreamerGroupView.prototype.initialize.apply(this, options);
+      StreamerGroupView.prototype.initialize.apply(this, this.options);
     },
     render: function() {
       console.log('streamer group render');
-      var streamer_count = Streamers.online().length;
+      var streamer_count = this.collection.online().length;
       
       this.count.html(streamer_count);
     },
     addStreamer: function(streamer) {
       if (streamer.get('online') === true) {
-        console.log('add online streamer');
+        console.log('add online streamer3');
         var view = new StreamerView({model: streamer, toggle_unrender: true});
         $('ul', this.el).append(view.render().el);
       }
     },
     addAllStreamers: function() {
-      _.each(Streamers.online(), this.addStreamer);
+      //this.collection.online().each(this.addStreamer);
+      _.each(this.collection.online(), this.addStreamer);
     },
     updateList: function(streamer) {
       console.log('update list:'+ streamer.get('name'));
@@ -198,7 +230,7 @@ $(function(){
         this.addStreamer(streamer);
       }
     }
-  });
+  });*/
   
   var LoLAppView = Backbone.View.extend({
     el: $('#lolapp'),
@@ -211,21 +243,22 @@ $(function(){
       // console.log('appview intialize');
       this.input = this.$("#new-streamer");
       
+      this.Streamers = new StreamerList;
+      
       //Streamers.bind('add', this.addOne, this);
       //Streamers.bind('reset', this.addAll, this);
       //Streamers.bind('all', this.render, this);
-      Streamers.bind('change:online', this.updateList, this);
+      this.Streamers.bind('change:online', this.updateList, this);
       
       this.footer = this.$('footer');
       this.main = $('#main');
       this.group_all = $('#group-all');
       
-      this.all_streamers = new StreamerGroupView();
-      this.offline_streamers = new OfflineStreamerGroupView({ el: this.$('#group-offline') });
-      this.online_streamers = new OnlineStreamerGroupView({ el: this.$('#group-online') });
-      //this.offline_streamers = new StreamerGroupView({ el: this.$('#group-offline') });
-      
-      Streamers.fetch();
+      this.all_streamers = new StreamerGroupView({ el: this.$('#group-all'), collection: this.Streamers, filter: '' });
+      this.offline_streamers = new StreamerGroupView({ el: this.$('#group-offline'), collection: this.Streamers, filter: 'offline' });
+      this.online_streamers = new StreamerGroupView({ el: this.$('#group-online'), collection: this.Streamers, filter: 'online' });
+
+      this.Streamers.fetch();
     },
     
     render: function() {
@@ -269,15 +302,15 @@ $(function(){
         this.offline_streamers.addStreamer(streamer);
       }
     
-      this.$('#offline-list li.online').remove();
-      this.$('#online-list li.offline').remove();
+      //this.$('#offline-list li.online').remove();
+      //this.$('#online-list li.offline').remove();
     },
     
     createOnEnter: function(e) {
       if (e.keyCode != 13) return;
       if (!this.input.val()) return;
       
-      Streamers.create({name: this.input.val()});
+      this.Streamers.create({name: this.input.val()});
       this.input.val('');
     },
 
