@@ -137,7 +137,7 @@ $(function(){
     },
     
     addStreamer: function(streamer) {
-      if (this.filter != '') {
+      if (this.filter != '' && ( (this.filter == 'online' && streamer.get('online')) || (this.filter == 'offline' && !streamer.get('online'))  )) {
         console.log('add streamer filter ' + this.filter);
         var view = new StreamerView({model: streamer, toggle_unrender: true});
         this.$('ul', this.el).append(view.render().el);
