@@ -150,12 +150,10 @@ $(function(){
     addAllStreamers: function() {
       if (this.filter == 'online') {
         // console.log('add streamers online');
-        // _.each(this.collection.online(), this.addStreamer);
         this.collection.online().each(this.addStreamer);
       }
       else if (this.filter == 'offline') {
         // console.log('add streamers offline');
-        // _.each(this.collection.offline(), this.addStreamer);
         this.collection.offline().each(this.addStreamer);
       }
       else {
