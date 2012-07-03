@@ -48,7 +48,7 @@ $(function(){
       "blur .edit"        : "close"
     },
     
-    initialize: function(options) {
+    initialize: function() {
       // console.log('streamerview intialize');
       this.model.bind('change', this.render, this);
       this.model.bind('destroy', this.remove, this);
@@ -104,7 +104,7 @@ $(function(){
       "click    .toggle-group"    : "toggleGroup"
     },
     
-    initialize: function(options) {
+    initialize: function() {
       // console.log('streamer group initialize');
       _.bindAll(this, 'addStreamer', 'addAllStreamers', 'render');
       
