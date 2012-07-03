@@ -111,10 +111,10 @@ $(function(){
       // initialize option el
       this.el = this.options.el;
       
-      this.header = this.$('.header', this.el);
-      this.count = this.$('.count', this.el);
-      this.toggle = this.$('.toggle-group', this.el);
-      this.list = this.$('ul.list', this.el);
+      this.header = this.$('.header');
+      this.count = this.$('.count');
+      this.toggle = this.$('.toggle-group');
+      this.list = this.$('ul.list');
       this.collection = this.options.collection;
       this.filter = '' || this.options.filter;
 
