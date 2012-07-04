@@ -44,11 +44,13 @@ $(function(){
       "click .toggle"     : "toggleOnline",
       "dblclick .view"    : "edit",
       "click a.remove"    : "clear",
+      "click .sync"       : "sync",
       "click .close"      : "close",
       "click .save"       : "save"
     },
     
     initialize: function() {
+      _.bindAll(this,'sync');
       // console.log('streamerview intialize');
       this.model.bind('change', this.render, this);
       this.model.bind('destroy', this.remove, this);
@@ -90,6 +92,27 @@ $(function(){
       this.model.save({name: name_value, viewers: viewer_value});
       
       this.close();
+    },
+    
+    sync: function() {
+      var self = this;
+      console.log('sync');
+      var pageUrl = 'http://api.justin.tv/api/stream/list.json?jsonp=syncStreamer&channel=' + this.model.get('name');
+      
+      $.ajax({
+        url: pageUrl,
+        dataType: "jsonp",
+        jsonpCallback: 'syncStreamer',
+        success: function(data) {
+          console.log('ajax success');
+          var count = data[0].embed_count;
+          self.inputViewers.val(count);
+        },
+        error: function(error) {
+          console.log('ajax error');
+          self.inputViewers.val(0);
+        }
+      });
     },
     
     updateOnEnter: function(e) {
@@ -234,3 +257,7 @@ $(function(){
   var App = new LoLAppView;
   
 });
+
+function syncStreamer(data) {
+  console.log('sync callback');
+}
