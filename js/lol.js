@@ -188,11 +188,6 @@ $(function(){
       
       this.Streamers = new StreamerList;
       
-      //Streamers.bind('add', this.addOne, this);
-      //Streamers.bind('reset', this.addAll, this);
-      //Streamers.bind('all', this.render, this);
-      //this.Streamers.bind('change:online', this.updateList, this);
-      
       this.footer = this.$('footer');
       this.main = $('#main');
       this.group_all = $('#group-all');
@@ -218,31 +213,6 @@ $(function(){
       } else {
         this.main.hide();
         this.footer.hide();
-      }
-    },
-    
-    addOne: function(streamer) {
-      console.log('addone');
-      var view_all = new StreamerView({model: streamer});
-      // this.$('#streamer-list').append(view_all.render().el);
-    },
-    
-    addAll: function() {
-      console.log('addall');
-      // Populate all list
-      // Streamers.each(this.addOne);
-      
-      // Populate online/offline list
-      // Streamers.each(this.updateList);
-    },
-    
-    updateList: function(streamer) {
-      console.log('app update list:'+streamer.get('name'));
-      var view = new StreamerView({model: streamer});
-      if(streamer.get('online') === true) {
-        this.online_streamers.addStreamer(streamer);
-      } else {
-        this.offline_streamers.addStreamer(streamer);
       }
     },
     
