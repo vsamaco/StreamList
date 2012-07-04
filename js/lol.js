@@ -134,31 +134,21 @@ $(function(){
     },
     
     addStreamer: function(streamer) {
-      if (this.filter != '' && ( (this.filter == 'online' && streamer.get('online')) || (this.filter == 'offline' && !streamer.get('online'))  )) {
+      if ((this.filter == 'online' && streamer.get('online')) || 
+          (this.filter == 'offline' && !streamer.get('online'))) {
         // console.log('add streamer filter ' + this.filter);
         var view = new StreamerView({model: streamer, toggle_unrender: true});
-        this.$('ul', this.el).append(view.render().el);
+        this.$('ul').append(view.render().el);
       }
       else if(this.filter == '') {
         // console.log('add streamer none');
         var view_all = new StreamerView({model: streamer});
-        this.$('ul', this.el).append(view_all.render().el);
+        this.$('ul').append(view_all.render().el);
       }
     },
     
     addAllStreamers: function() {
-      if (this.filter == 'online') {
-        // console.log('add streamers online');
-        this.collection.online().each(this.addStreamer);
-      }
-      else if (this.filter == 'offline') {
-        // console.log('add streamers offline');
-        this.collection.offline().each(this.addStreamer);
-      }
-      else {
-        // console.log('add streamers none');
-        this.collection.each(this.addStreamer);
-      }
+      this.collection.each(this.addStreamer);
     },
     
     toggleStreamer: function(streamer) {
