@@ -115,53 +115,59 @@ $(function(){
       this.count = this.$('.count');
       this.toggle = this.$('.toggle-group');
       this.list = this.$('ul.list');
-      this.filter = '' || this.options.filter;
 
       this.collection.bind('add', this.addStreamer, this);
       this.collection.bind('reset', this.addAllStreamers, this);
       this.collection.bind('all', this.render, this);
-      this.collection.bind('change:online', this.updateList, this);
     },
     
     render: function() {
       // console.log('streamer group render');
-      var streamer_count = (this.filter == 'online' ? this.collection.online() 
-      : this.filter == 'offline' ? this.collection.offline() 
-      : this.collection).length;
+      var streamer_count = this.collection.length;
       
       this.count.html(streamer_count);
     },
     
     addStreamer: function(streamer) {
-      if ((this.filter == 'online' && streamer.get('online')) || 
-          (this.filter == 'offline' && !streamer.get('online'))) {
-        // console.log('add streamer filter ' + this.filter);
-        var view = new StreamerView({model: streamer, toggle_unrender: true});
-        this.$('ul').append(view.render().el);
-      }
-      else if(this.filter == '') {
-        // console.log('add streamer none');
-        var view_all = new StreamerView({model: streamer});
-        this.$('ul').append(view_all.render().el);
-      }
+      // console.log('add streamer none');
+      var view_all = new StreamerView({model: streamer});
+      this.$('ul').append(view_all.render().el);
     },
     
     addAllStreamers: function() {
       this.collection.each(this.addStreamer);
     },
     
-    updateList: function(streamer) {
-      if((this.filter == 'online' && streamer.get('online')) 
-        || (this.filter == 'offline' && !streamer.get('online'))) {
-        var view = new StreamerView({model: streamer, toggle_unrender: true});
-        this.$('ul').append(view.render().el);
-      }
-    },
-    
     toggleGroup: function() {
       this.$el.toggleClass("collapsed");
     }
   });
+  
+  var FilteredStreamerGroupView = StreamerGroupView.extend({
+    initialize: function() {
+      _.bindAll(this, 'addStreamer', 'render');
+      
+      this.collection.bind('change:online', this.addStreamer);
+      
+      this.online = this.options.online;
+      
+      StreamerGroupView.prototype.initialize.apply(this, this.options);
+    },
+    
+    render: function() {
+      var streamer_count = (this.online === true ? this.collection.online() 
+      : this.collection.offline()).length;
+      
+      this.count.html(streamer_count);
+    },
+    
+    addStreamer: function(streamer) {
+      if(this.online === streamer.get('online')) {
+        var view = new StreamerView({model: streamer, toggle_unrender: true});
+        this.$('ul').append(view.render().el);
+      }
+    }
+  })
   
   var LoLAppView = Backbone.View.extend({
     el: $('#lolapp'),
@@ -181,8 +187,8 @@ $(function(){
       this.group_all = $('#group-all');
       
       this.all_streamers = new StreamerGroupView({ el: this.$('#group-all'), collection: this.Streamers, filter: '' });
-      this.offline_streamers = new StreamerGroupView({ el: this.$('#group-offline'), collection: this.Streamers, filter: 'offline' });
-      this.online_streamers = new StreamerGroupView({ el: this.$('#group-online'), collection: this.Streamers, filter: 'online' });
+      this.offline_streamers = new FilteredStreamerGroupView({ el: this.$('#group-offline'), collection: this.Streamers, filter: 'offline', online: false });
+      this.online_streamers = new FilteredStreamerGroupView({ el: this.$('#group-online'), collection: this.Streamers, filter: 'online', online: true });
 
       this.Streamers.fetch();
     },
