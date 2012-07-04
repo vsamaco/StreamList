@@ -1,6 +1,6 @@
 $(function(){
   
-  var Streamer = Backbone.Model.extend({
+  window.Streamer = Backbone.Model.extend({
     defaults: function() {
       return {
         name: "",
