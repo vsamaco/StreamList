@@ -18,7 +18,7 @@ $(function(){
     },
     
     toggle: function() {
-      this.save({online: !this.get('online')});
+      this.save({online: !this.get('online'), viewers: 0});
     },
     
     clear: function() {
