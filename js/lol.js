@@ -121,7 +121,7 @@ $(function(){
       this.collection.bind('add', this.addStreamer, this);
       this.collection.bind('reset', this.addAllStreamers, this);
       this.collection.bind('all', this.render, this);
-      this.collection.bind('change:online', this.toggleStreamer, this);
+      this.collection.bind('change:online', this.updateList, this);
     },
     
     render: function() {
@@ -151,12 +151,11 @@ $(function(){
       this.collection.each(this.addStreamer);
     },
     
-    toggleStreamer: function(streamer) {
-      if(this.filter != '' && ( 
-        (this.filter == 'online' && streamer.get('online')) 
-        || (this.filter == 'offline' && !streamer.get('online')))) {
+    updateList: function(streamer) {
+      if((this.filter == 'online' && streamer.get('online')) 
+        || (this.filter == 'offline' && !streamer.get('online'))) {
         var view = new StreamerView({model: streamer, toggle_unrender: true});
-        this.$('ul', this.el).append(view.render().el);
+        this.$('ul').append(view.render().el);
       }
     },
     
