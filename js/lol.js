@@ -115,7 +115,6 @@ $(function(){
       this.count = this.$('.count');
       this.toggle = this.$('.toggle-group');
       this.list = this.$('ul.list');
-      this.collection = this.options.collection;
       this.filter = '' || this.options.filter;
 
       this.collection.bind('add', this.addStreamer, this);
