@@ -101,12 +101,12 @@ h3 {
 }
 
 /* line 55, styles.scss */
-input.edit {
+.edit {
   display: none;
 }
 
 /* line 60, styles.scss */
-.editing input.edit {
+.editing .edit {
   display: block;
 }
 /* line 63, styles.scss */
@@ -145,7 +145,12 @@ input.edit {
   padding: 3px 3px;
   position: relative;
 }
-/* line 100, styles.scss */
+/* line 101, styles.scss */
+.group ul li .view label {
+  display: inline-block;
+  width: 80%;
+}
+/* line 108, styles.scss */
 .group ul li .remove {
   position: absolute;
   top: 2px;
@@ -157,15 +162,15 @@ input.edit {
   cursor: pointer;
   background: url(../images/destroy.png) no-repeat 0 0;
 }
-/* line 112, styles.scss */
+/* line 120, styles.scss */
 .group ul li .remove:hover {
   background: url(../images/destroy.png) no-repeat 0 -20px;
 }
-/* line 118, styles.scss */
+/* line 126, styles.scss */
 .group ul li:hover .remove {
   display: block;
 }
-/* line 126, styles.scss */
+/* line 134, styles.scss */
 .group.collapsed ul {
   display: none;
 }

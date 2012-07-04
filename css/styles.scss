@@ -52,12 +52,12 @@ h3 {
   
 }
 
-input.edit {
+.edit {
   display: none;
 }
 
 .editing {
-  input.edit {
+  .edit {
     display: block;
   }
   .view {
@@ -96,6 +96,14 @@ input.edit {
       border-bottom: 1px solid $group-streamer-border;
       padding: 3px 3px;
       position: relative;
+      
+      .view {
+        label {
+          display: inline-block;
+          width: 80%;
+        }
+      
+      }
       
       .remove {
         position: absolute;

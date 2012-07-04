@@ -44,8 +44,8 @@ $(function(){
       "click .toggle"     : "toggleOnline",
       "dblclick .view"    : "edit",
       "click a.remove"    : "clear",
-      "keypress .edit"    : "updateOnEnter",
-      "blur .edit"        : "close"
+      "click .close"      : "close",
+      "click .save"       : "save"
     },
     
     initialize: function() {
@@ -61,7 +61,10 @@ $(function(){
       this.$el.html(this.template(this.model.toJSON()));
       this.$el.toggleClass('online', this.model.get('online'));
       this.$el.toggleClass('offline', !this.model.get('online'));
-      this.input = this.$('.edit');
+      this.inputName = this.$('.editName');
+      this.inputViewers = this.$('.editViewers');
+      this.closeButton = this.$('.close');
+      this.saveButton = this.$('.save');
       return this;
     },
     
@@ -71,14 +74,22 @@ $(function(){
     
     edit: function() {
       this.$el.addClass("editing");
-      this.input.focus();
+      this.inputName.focus();
     },
     
     close: function() {
-      var value = this.input.val();
-      if (!value) this.clear();
-      this.model.save({name: value});
       this.$el.removeClass("editing");
+    },
+    
+    save: function() {
+      var name_value = this.inputName.val();
+      var viewer_value = this.inputViewers.val();
+      
+      if (!name_value) this.clear();
+      
+      this.model.save({name: name_value, viewers: viewer_value});
+      
+      this.close();
     },
     
     updateOnEnter: function(e) {
