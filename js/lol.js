@@ -116,9 +116,9 @@ $(function(){
       this.toggle = this.$('.toggle-group');
       this.list = this.$('ul.list');
 
-      this.collection.bind('add', this.addStreamer, this);
-      this.collection.bind('reset', this.addAllStreamers, this);
-      this.collection.bind('all', this.render, this);
+      this.collection.bind('add', this.addStreamer);
+      this.collection.bind('reset', this.addAllStreamers);
+      this.collection.bind('all', this.render);
     },
     
     render: function() {
