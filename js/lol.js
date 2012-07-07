@@ -203,6 +203,59 @@ $(function(){
     }
   });
   
+  
+  var Playlist = Backbone.Collection.extend({
+    model: Streamer
+  });
+  
+  window.Player = Backbone.Model.extend({
+    defaults: {
+      'currentStreamerIndex': 0,
+      'state':  'stop'
+    },
+    initialize: function() {
+      this.playlist = new Playlist();
+    },
+    play: function() {
+      
+    },
+    stop: function() {
+      
+    },
+    isPlaying: function() {
+      
+    },
+    isStopped: function() {
+      
+    },
+    currentStream: function() {
+      
+    }
+  });
+  
+  var PlaylistStreamerView = Backbone.View.extend({
+    tagName: 'li',
+    className: 'streamer',
+    template: ''
+  });
+  
+  var PlaylistView = Backbone.View.extend({
+    tagName: 'section',
+    className: 'playlist',
+    template: _.template($('#playlist-template').html()),
+    
+    events: {
+      'click .play' : '',
+      'click .pause': '',
+      'click .next' : '',
+      'click .prev' : '',
+    },
+    
+    initialize: function() {
+      
+    }
+  });
+  
   var LoLAppView = Backbone.View.extend({
     el: $('#lolapp'),
     statsTemplate: _.template($('#stats-template').html()),
