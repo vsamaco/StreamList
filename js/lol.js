@@ -105,7 +105,7 @@ $(function(){
         jsonpCallback: 'syncStreamer',
         success: function(data) {
           console.log('ajax success');
-          var count = data[0].embed_count;
+          var count = data[0].stream_count;
           self.inputViewers.val(count);
         },
         error: function(error) {
@@ -201,7 +201,7 @@ $(function(){
         this.$('ul').append(view.render().el);
       }
     }
-  })
+  });
   
   var LoLAppView = Backbone.View.extend({
     el: $('#lolapp'),
