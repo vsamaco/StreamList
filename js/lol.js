@@ -253,6 +253,13 @@ $(function(){
     
     initialize: function() {
       
+    },
+    
+    render: function() {
+      $(this.el).html(this.template(this.player.toJSON()));
+      this.collection.each(this.renderStreamer);
+      
+      return this;
     }
   });
   
