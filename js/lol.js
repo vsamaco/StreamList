@@ -252,7 +252,11 @@ $(function(){
     },
     
     initialize: function() {
+      this.player = this.options.player;
+      this.collection = this.options.collection;
       
+      this.collection.bind('reset', this.render);
+      this.collection.bind('add', this.renderStreamer);
     },
     
     render: function() {
@@ -260,6 +264,16 @@ $(function(){
       this.collection.each(this.renderStreamer);
       
       return this;
+    },
+    
+    renderStreamer: function() {
+      var view = new PlaylistStreamerView({
+        model: streamer,
+        player: this.player,
+        playlist: this.collection
+      });
+      
+      this.$("ul").append(view.render().el);
     }
   });
   
