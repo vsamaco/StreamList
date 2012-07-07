@@ -105,7 +105,7 @@ $(function(){
         jsonpCallback: 'syncStreamer',
         success: function(data) {
           console.log('ajax success');
-          var count = data[0].stream_count;
+          var count = data[0].channel_count;
           self.inputViewers.val(count);
         },
         error: function(error) {
