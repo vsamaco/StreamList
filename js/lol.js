@@ -291,7 +291,6 @@ $(function(){
   });
   
   var LibraryView = Backbone.View.extend({
-    el: $('#lolapp'),
     template: _.template($("#library-template").html()),
     statsTemplate: _.template($('#stats-template').html()),
     events: {
@@ -299,7 +298,7 @@ $(function(){
     },
     
     initialize: function() {
-      // console.log('appview intialize');
+      // console.log('libraryview intialize');
       _.bindAll(this, 'render');
       this.collection.bind('reset', this.render);
       
@@ -315,19 +314,6 @@ $(function(){
     
     render: function() {
       // console.log('appview render');
-      var online = Streamers.online().length;
-      var offline = Streamers.offline().length
-      var all = Streamers.length;
-      
-      if(Streamers.length) {
-        this.main.show();
-        this.footer.show();
-        this.footer.html(this.statsTemplate({online: online, offline: offline}));
-        $('.count', this.group_all).html(all);
-      } else {
-        this.main.hide();
-        this.footer.hide();
-      }
 
       $(this.el).html(this.template({}));
       var all_view = new StreamerGroupView({ id: 'group-all', collection: this.collection, title: 'All', filter: '' });
@@ -354,9 +340,37 @@ $(function(){
 
   });
   
-  var Streamers = new StreamerList;
-  var App = new LibraryView({collection: Streamers});
-  Streamers.fetch();
+  window.library = new StreamerList;
+  
+  var StreamerApp = Backbone.Router.extend({
+    routes: {
+      '' : 'home',
+      'blank' : 'blank'
+    },
+    
+    initialize: function() {
+      this.libraryView = new LibraryView({
+        collection: window.library
+      });
+      
+      window.library.fetch();
+    },
+    
+    home: function() {
+      $("#lolapp").empty();
+      //$("#lolapp").append(this.playlistView.render().el);
+      $("#lolapp").append(this.libraryView.render().el);
+    },
+    
+    blank: function() {
+      $("#lolapp").empty();
+      $("#lolapp").text('blank');
+    }
+  });
+
+  
+  var App = new StreamerApp;
+  Backbone.history.start();
   
 });
 
