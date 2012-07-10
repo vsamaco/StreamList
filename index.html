@@ -34,54 +34,34 @@
 		<ul class="streamers"></ul>
 	</script>
 	
+	<script type="text/template" id="streamer-group">
+		<div class="header">
+			<div class="toggle-group collapsed">
+				<span class="collapsed">▼<span>
+			</div>
+			<h3 class="all"><%= title %></h3>
+			<span class="count"></span>
+		</div>
+		<ul id="streamer-list" class="list"></ul>
+	</script>
+	
+	<script type="text/template" id="library-template">
+		<header>
+			<h2>Library</h2>
+			<input id="new-streamer" placeholder="Add new streamer" type="text"/>
+		</header>
+		<section id="main"></section>
+		<footer>
+			<div id="online-count"></div>
+		</footer>
+	</script>
+	
 	<script type="text/template" id="stats-template">
 		<div class="online-count"><b><%= online %></b> online</div>
 		<div class="offline-count"><b><%= offline %></b> offline</div>
 	</script>
 </head>
 <body>
-	<div id="lolapp">
-		<header>
-			<h1>LoL Streamers</h1>
-			<input id="new-streamer" placeholder="Add new streamer" type="text"/>
-		</header>
-		<section id="main">
-			<section id="group-all" class="group">
-				<div class="header">
-					<div class="toggle-group collapsed">
-						<span class="collapsed">▼<span>
-					</div>
-					<h3 class="all">All</h3>
-					<span class="count"></span>
-				</div>
-				<ul id="streamer-list" class="list"></ul>
-			</section>
-			
-			<section id="group-offline" class="group">
-				<div class="header">
-					<div class="toggle-group collapsed">
-						<span class="collapsed">▼<span>
-					</div>
-					<h3 class="all">Offline</h3>
-					<span class="count"></span>
-				</div>
-				<ul id="offline-list" class="list"></ul>
-			</section>
-			
-			<section id="group-online" class="group">
-				<div class="header">
-					<div class="toggle-group collapsed">
-						<span class="collapsed">▼<span>
-					</div>
-					<h3 class="all">Online</h3>
-					<span class="count"></span>
-				</div>
-				<ul id="online-list" class="list"></ul>
-			</section>
-		</section>
-		<footer>
-			<div id="online-count"></div>
-		</footer>
-	</div>
+	<div id="lolapp"></div>
 </body>
 </html>

@@ -133,7 +133,9 @@ $(function(){
   });
   
   var StreamerGroupView = Backbone.View.extend({
-    el: $('#group-all'),
+    tagName: 'section',
+    className: 'group',
+    template: _.template($('#streamer-group').html()),
     events: {
       "click    .toggle-group"    : "toggleGroup"
     },
@@ -141,10 +143,8 @@ $(function(){
     initialize: function() {
       // console.log('streamer group initialize');
       _.bindAll(this, 'addStreamer', 'addAllStreamers', 'render');
-      
-      // initialize option el
-      this.el = this.options.el;
-      
+
+      this.title = this.options.title;
       this.header = this.$('.header');
       this.count = this.$('.count');
       this.toggle = this.$('.toggle-group');
@@ -159,7 +159,13 @@ $(function(){
       // console.log('streamer group render');
       var streamer_count = this.collection.length;
       
-      this.count.html(streamer_count);
+      $(this.el).html(this.template({title: this.title}));
+      
+      this.$(".count").html(streamer_count);
+      
+      this.collection.each(this.addStreamer);
+      
+      return this;
     },
     
     addStreamer: function(streamer) {
@@ -169,6 +175,7 @@ $(function(){
     },
     
     addAllStreamers: function() {
+      // console.log('add all');
       this.collection.each(this.addStreamer);
     },
     
@@ -192,7 +199,13 @@ $(function(){
       var streamer_count = (this.online === true ? this.collection.online() 
       : this.collection.offline()).length;
       
-      this.count.html(streamer_count);
+      $(this.el).html(this.template({title: this.title}));
+      
+      this.$(".count").html(streamer_count);
+      
+      this.collection.each(this.addStreamer);
+      
+      return this;
     },
     
     addStreamer: function(streamer) {
@@ -277,28 +290,27 @@ $(function(){
     }
   });
   
-  var LoLAppView = Backbone.View.extend({
+  var LibraryView = Backbone.View.extend({
     el: $('#lolapp'),
+    template: _.template($("#library-template").html()),
     statsTemplate: _.template($('#stats-template').html()),
     events: {
-      "keypress #new-streamer"    : "createOnEnter",
+      "keypress #new-streamer"    : "createOnEnter"
     },
     
     initialize: function() {
       // console.log('appview intialize');
-      this.input = this.$("#new-streamer");
-      
-      this.Streamers = new StreamerList;
+      _.bindAll(this, 'render');
+      this.collection.bind('reset', this.render);
       
       this.footer = this.$('footer');
       this.main = $('#main');
       this.group_all = $('#group-all');
       
-      this.all_streamers = new StreamerGroupView({ el: this.$('#group-all'), collection: this.Streamers, filter: '' });
-      this.offline_streamers = new FilteredStreamerGroupView({ el: this.$('#group-offline'), collection: this.Streamers, filter: 'offline', online: false });
-      this.online_streamers = new FilteredStreamerGroupView({ el: this.$('#group-online'), collection: this.Streamers, filter: 'online', online: true });
-
-      this.Streamers.fetch();
+      //this.all_streamers = new StreamerGroupView({ el: this.$('#group-all'), collection: this.collection, filter: '' });
+      //this.offline_streamers = new FilteredStreamerGroupView({ el: this.$('#group-offline'), collection: this.collection, filter: 'offline', online: false });
+      //this.online_streamers = new FilteredStreamerGroupView({ el: this.$('#group-online'), collection: this.collection, filter: 'online', online: true });
+      
     },
     
     render: function() {
@@ -316,19 +328,35 @@ $(function(){
         this.main.hide();
         this.footer.hide();
       }
+
+      $(this.el).html(this.template({}));
+      var all_view = new StreamerGroupView({ id: 'group-all', collection: this.collection, title: 'All', filter: '' });
+      this.$('#main').append(all_view.render().el);
+      
+      var online_view = new FilteredStreamerGroupView({ id: 'group-online', collection: this.collection, title: 'Online', filter: 'online', online: true });
+      this.$('#main').append(online_view.render().el);
+      
+      var offline_view = new FilteredStreamerGroupView({ id: 'group-offline', collection: this.collection, title: 'Offline', filter: 'offline', online: false });
+      this.$('#main').append(offline_view.render().el);
+      
+      return this;
     },
     
     createOnEnter: function(e) {
-      if (e.keyCode != 13) return;
-      if (!this.input.val()) return;
+      $input = this.$('#new-streamer');
       
-      this.Streamers.create({name: this.input.val()});
-      this.input.val('');
+      if (e.keyCode != 13) return;
+      if (!$input.val()) return;
+      
+      this.collection.create({name: $input.val()});
+      $input.val('');
     },
 
   });
   
-  var App = new LoLAppView;
+  var Streamers = new StreamerList;
+  var App = new LibraryView({collection: Streamers});
+  Streamers.fetch();
   
 });
 
