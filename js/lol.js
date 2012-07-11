@@ -44,13 +44,14 @@ $(function(){
       "click .toggle"     : "toggleOnline",
       "dblclick .view"    : "edit",
       "click a.remove"    : "clear",
-      "click .sync"       : "sync",
+      "click .syncTwitch" : "syncTwitch",
+      "click .syncOwn3d"  : "syncOwn3d",
       "click .close"      : "close",
       "click .save"       : "save"
     },
     
     initialize: function() {
-      _.bindAll(this,'sync');
+      _.bindAll(this, 'syncTwitch', 'syncOwn3d');
       // console.log('streamerview intialize');
       this.model.bind('change', this.render, this);
       this.model.bind('destroy', this.remove, this);
@@ -94,7 +95,7 @@ $(function(){
       this.close();
     },
     
-    sync: function() {
+    syncTwitch: function() {
       var self = this;
       console.log('sync');
       var pageUrl = 'http://api.justin.tv/api/stream/list.json?jsonp=syncStreamer&channel=' + this.model.get('name');
@@ -111,6 +112,34 @@ $(function(){
         error: function(error) {
           console.log('ajax error');
           self.inputViewers.val(0);
+        }
+      });
+    },
+    
+    syncOwn3d: function() {
+      console.log('sync own3d');
+      var self = this;
+      
+      var pageUrl = 'http://api.own3d.tv/liveCheck.php?live_id='+ this.model.get('name');
+      var yqlUrl = "http://query.yahooapis.com/v1/public/yql?"+
+                      "q=select%20*%20from%20xml%20where%20url%3D%22"+
+                      encodeURIComponent(pageUrl)+
+                      "%22&format=json&callback=syncStreamer";
+                      
+      $.ajax({
+        url: yqlUrl,
+        dataType: 'jsonp',
+        jsonpCallback: 'syncStreamer',
+        success: function(data) {
+          console.log('ajax success');
+          var count = data.query.results.own3dReply.liveEvent.liveViewers;
+          var isLive = data.query.results.own3dReply.liveEvent.isLive;
+          if(isLive) {
+            self.inputViewers.val(count);
+          }
+        },
+        error: function(error) {
+          console.log('ajax error');
         }
       });
     },
