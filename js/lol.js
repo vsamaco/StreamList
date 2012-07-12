@@ -347,7 +347,7 @@ $(function(){
     },
     
     initialize: function() {
-      _.bindAll(this, 'render', 'updateStreamers');
+      _.bindAll(this, 'render', 'updateTwitch', 'updateOwn3d', 'updateStreamers');
       
       this.collection.bind('reset', this.render);
       
@@ -364,6 +364,11 @@ $(function(){
     },
     
     updateStreamers: function() {
+      this.updateTwitch();
+      this.updateOwn3d();
+    },
+    
+    updateTwitch: function() {
       var self = this;
       console.log('update streamers');
       var pageUrl = 'http://api.justin.tv/api/stream/list.json?meta_game=League%20of%20Legends&limit=10&jsonp=syncStreamer';
@@ -393,6 +398,42 @@ $(function(){
         },
         error: function(error) {
           console.log('ajax error');
+        }
+      });
+    },
+    
+    updateOwn3d: function() {
+      var self = this;
+      
+      var pageUrl = 'http://api.own3d.tv/live?game=lol&limit=10';
+      var yqlUrl = "http://query.yahooapis.com/v1/public/yql?"+
+                      "q=select%20*%20from%20xml%20where%20url%3D%22"+
+                      encodeURIComponent(pageUrl)+
+                      "%22&format=json&callback=syncStreamer2";
+                      
+      $.ajax({
+        url: yqlUrl,
+        dataType: 'jsonp',
+        jsonpCallback: 'syncStreamer2',
+        success: function(data) {
+          console.log('own3d ajax success');
+          $.each(data.query.results.rss.channel.item, function(index, stream) {
+            var viewers = stream.misc.viewers;
+            var name = stream.credit;
+            var stream = stream.link.replace('http://www.own3d.tv/live/', '');
+            var service ='own3d';
+            
+            console.log(name+' '+stream+' '+viewers+' '+service);
+            self.collection.add({
+              name: name,
+              stream: stream,
+              service: service,
+              viewers: viewers
+            });
+          });
+        },
+        error: function(error) {
+          console.log('own3d ajax error');
         }
       });
     }
@@ -496,4 +537,8 @@ $(function(){
 
 function syncStreamer(data) {
   console.log('sync callback');
+}
+
+function syncStreamer2(data) {
+  console.log('sync2 callback');
 }
