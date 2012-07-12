@@ -364,6 +364,7 @@ $(function(){
     },
     
     updateStreamers: function() {
+      this.collection.reset();
       this.updateTwitch();
       this.updateOwn3d();
     },
@@ -386,7 +387,7 @@ $(function(){
             var viewers = streamer.channel_count;
             var service = 'twitch';
             
-            console.log(name+' '+stream+' '+viewers+' '+service);
+            // console.log(name+' '+stream+' '+viewers+' '+service);
             self.collection.add({
               name: name,
               stream: stream,
@@ -394,7 +395,8 @@ $(function(){
               viewers: viewers
             });
           });
-
+          
+          self.collection.sort();
         },
         error: function(error) {
           console.log('ajax error');
@@ -423,7 +425,7 @@ $(function(){
             var stream = stream.link.replace('http://www.own3d.tv/live/', '');
             var service ='own3d';
             
-            console.log(name+' '+stream+' '+viewers+' '+service);
+            // console.log(name+' '+stream+' '+viewers+' '+service);
             self.collection.add({
               name: name,
               stream: stream,
@@ -431,6 +433,8 @@ $(function(){
               viewers: viewers
             });
           });
+          
+          self.collection.sort();
         },
         error: function(error) {
           console.log('own3d ajax error');
@@ -491,6 +495,10 @@ $(function(){
   
   window.library = new StreamerList;
   window.exploreLibrary = new ExploreList;
+  
+  exploreLibrary.comparator = function(streamer) {
+    return -streamer.get('viewers');
+  };
   
   var StreamerApp = Backbone.Router.extend({
     routes: {
