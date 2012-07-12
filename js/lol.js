@@ -211,7 +211,6 @@ $(function(){
       this.$(".count").html(streamer_count);
       
       this.collection.each(this.addStreamer);
-      
       return this;
     },
     
@@ -344,26 +343,58 @@ $(function(){
   var ExploreView = Backbone.View.extend({
     template: _.template($('#explore-template').html()),
     events: {
-      
+      'click .update' : 'updateStreamers'
     },
     
     initialize: function() {
-      _.bindAll(this, 'render');
+      _.bindAll(this, 'render', 'updateStreamers');
       
       this.collection.bind('reset', this.render);
+      
+      this.updateStreamers();
     },
     
     render: function() {
       $(this.el).html(this.template({}));
       
-      var all_view = new StreamerGroupView({ id: 'group-explore', collection: this.collection, title: 'All', filter: '' });
+      var all_view = new StreamerGroupView({ id: 'group-explore', collection: this.collection, title: 'League of Legends', filter: '' });
       this.$('#main').append(all_view.render().el);
       
       return this;
     },
     
     updateStreamers: function() {
+      var self = this;
+      console.log('update streamers');
+      var pageUrl = 'http://api.justin.tv/api/stream/list.json?meta_game=League%20of%20Legends&limit=10&jsonp=syncStreamer';
       
+      $.ajax({
+        url: pageUrl,
+        dataType: "jsonp",
+        jsonpCallback: 'syncStreamer',
+        success: function(data) {
+          console.log('ajax success');
+          console.log(data);
+          $.each(data, function(index, streamer) {
+            var name = streamer.channel.title;
+            var stream = streamer.channel.login;
+            var viewers = streamer.channel_count;
+            var service = 'twitch';
+            
+            console.log(name+' '+stream+' '+viewers+' '+service);
+            self.collection.add({
+              name: name,
+              stream: stream,
+              service: service,
+              viewers: viewers
+            });
+          });
+
+        },
+        error: function(error) {
+          console.log('ajax error');
+        }
+      });
     }
   });
   
