@@ -5,6 +5,7 @@ $(function(){
       return {
         name: "",
         stream: "",
+        service: "",
         viewers: 0,
         online: false
       };
@@ -44,14 +45,13 @@ $(function(){
       "click .toggle"     : "toggleOnline",
       "dblclick .view"    : "edit",
       "click a.remove"    : "clear",
-      "click .syncTwitch" : "syncTwitch",
-      "click .syncOwn3d"  : "syncOwn3d",
+      "click .sync"       : "syncStream",
       "click .close"      : "close",
       "click .save"       : "save"
     },
     
     initialize: function() {
-      _.bindAll(this, 'syncTwitch', 'syncOwn3d');
+      _.bindAll(this, 'syncStream');
       // console.log('streamerview intialize');
       this.model.bind('change', this.render, this);
       this.model.bind('destroy', this.remove, this);
@@ -66,6 +66,8 @@ $(function(){
       this.$el.toggleClass('offline', !this.model.get('online'));
       this.inputName = this.$('.editName');
       this.inputViewers = this.$('.editViewers');
+      this.inputStream = this.$('.editStream');
+      this.inputService = this.$('.editService');
       this.closeButton = this.$('.close');
       this.saveButton = this.$('.save');
       return this;
@@ -87,18 +89,34 @@ $(function(){
     save: function() {
       var name_value = this.inputName.val();
       var viewer_value = this.inputViewers.val();
+      var stream_value = this.inputStream.val();
+      var service_value = this.inputService.val();
       
       if (!name_value) this.clear();
       
-      this.model.save({name: name_value, viewers: viewer_value});
+      this.model.save({
+        name: name_value,
+        viewers: viewer_value,
+        stream: stream_value,
+        service: service_value
+      });
       
       this.close();
+    },
+    
+    syncStream: function() {
+      if(this.model.get('service') == 'twitch') {
+        this.syncTwitch();
+      }
+      else if(this.model.get('service') == 'own3d') {
+        this.syncOwn3d();
+      }
     },
     
     syncTwitch: function() {
       var self = this;
       console.log('sync');
-      var pageUrl = 'http://api.justin.tv/api/stream/list.json?jsonp=syncStreamer&channel=' + this.model.get('name');
+      var pageUrl = 'http://api.justin.tv/api/stream/list.json?jsonp=syncStreamer&channel=' + this.model.get('stream');
       
       $.ajax({
         url: pageUrl,
@@ -120,7 +138,7 @@ $(function(){
       console.log('sync own3d');
       var self = this;
       
-      var pageUrl = 'http://api.own3d.tv/liveCheck.php?live_id='+ this.model.get('name');
+      var pageUrl = 'http://api.own3d.tv/liveCheck.php?live_id='+ this.model.get('stream');
       var yqlUrl = "http://query.yahooapis.com/v1/public/yql?"+
                       "q=select%20*%20from%20xml%20where%20url%3D%22"+
                       encodeURIComponent(pageUrl)+

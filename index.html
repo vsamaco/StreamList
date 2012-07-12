@@ -18,10 +18,11 @@
 			<a class="remove">remove</a>
 		</div>
 		<div class="edit">
-			<input class="editName" type="text" value="<%= name %>" />
-			<input class="editViewers" type="text" value="<%= viewers %>" />
-			<button class="syncTwitch">SyncTwitch</button>
-			<button class="syncOwn3d">SyncOwn3d</button>
+			<input class="editName" type="text" value="<%= name %>" placeholder="name"/>
+			<input class="editStream" type="text" value="<%= stream %>" placeholder="stream"/>
+			<input class="editService" type="text" value="<%= service %>" placeholder="service"/>
+			<input class="editViewers" type="text" value="<%= viewers %>" placeholder="viewers"/>
+			<button class="sync">Sync</button>
 			<button class="close">Close</button>
 			<button class="save">Save</button>
 			<div class="response"></div>
