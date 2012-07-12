@@ -337,6 +337,36 @@ $(function(){
     }
   });
   
+  var ExploreList = Backbone.Collection.extend({
+    model: Streamer
+  });
+  
+  var ExploreView = Backbone.View.extend({
+    template: _.template($('#explore-template').html()),
+    events: {
+      
+    },
+    
+    initialize: function() {
+      _.bindAll(this, 'render');
+      
+      this.collection.bind('reset', this.render);
+    },
+    
+    render: function() {
+      $(this.el).html(this.template({}));
+      
+      var all_view = new StreamerGroupView({ id: 'group-explore', collection: this.collection, title: 'All', filter: '' });
+      this.$('#main').append(all_view.render().el);
+      
+      return this;
+    },
+    
+    updateStreamers: function() {
+      
+    }
+  });
+  
   var LibraryView = Backbone.View.extend({
     template: _.template($("#library-template").html()),
     statsTemplate: _.template($('#stats-template').html()),
@@ -388,16 +418,22 @@ $(function(){
   });
   
   window.library = new StreamerList;
+  window.exploreLibrary = new ExploreList;
   
   var StreamerApp = Backbone.Router.extend({
     routes: {
-      '' : 'home',
-      'blank' : 'blank'
+      ''        : 'home',
+      'blank'   : 'blank',
+      'explore' : 'explore'
     },
     
     initialize: function() {
       this.libraryView = new LibraryView({
         collection: window.library
+      });
+      
+      this.exploreView = new ExploreView({
+        collection: window.exploreLibrary
       });
       
       window.library.fetch();
@@ -407,6 +443,12 @@ $(function(){
       $("#lolapp").empty();
       //$("#lolapp").append(this.playlistView.render().el);
       $("#lolapp").append(this.libraryView.render().el);
+    },
+    
+    
+    explore: function() {
+      $("#lolapp").empty();
+      $("#lolapp").append(this.exploreView.render().el);
     },
     
     blank: function() {
