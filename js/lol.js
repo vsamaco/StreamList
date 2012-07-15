@@ -343,7 +343,8 @@ $(function(){
   var ExploreView = Backbone.View.extend({
     template: _.template($('#explore-template').html()),
     events: {
-      'click .update' : 'updateStreamers'
+      'click .update' : 'updateStreamers',
+      'click .library': 'goLibrary'
     },
     
     initialize: function() {
@@ -440,6 +441,11 @@ $(function(){
           console.log('own3d ajax error');
         }
       });
+    },
+    
+    goLibrary: function(e) {
+      App.navigate('', {trigger: true});
+      e.preventDefault();
     }
   });
   
@@ -447,7 +453,8 @@ $(function(){
     template: _.template($("#library-template").html()),
     statsTemplate: _.template($('#stats-template').html()),
     events: {
-      "keypress #new-streamer"    : "createOnEnter"
+      "keypress #new-streamer"    : "createOnEnter",
+      'click a.explore'           : "navExplore"
     },
     
     initialize: function() {
@@ -490,6 +497,12 @@ $(function(){
       this.collection.create({name: $input.val()});
       $input.val('');
     },
+    
+    navExplore: function(e) {
+      console.log('nav explore');
+      App.navigate('explore', {trigger: true});
+      e.preventDefault();
+    }
 
   });
   
