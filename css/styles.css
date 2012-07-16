@@ -170,7 +170,11 @@ h3 {
 .group ul li:hover .remove {
   display: block;
 }
-/* line 134, styles.scss */
+/* line 132, styles.scss */
+.group ul li.favorite {
+  background-color: green;
+}
+/* line 138, styles.scss */
 .group.collapsed ul {
   display: none;
 }

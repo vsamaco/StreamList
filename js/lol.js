@@ -176,6 +176,10 @@ $(function(){
         console.log('unrender');
         this.remove();
       }
+    },
+    
+    favorite: function() {
+      this.$el.addClass("favorite");
     }
   });
   
@@ -199,7 +203,7 @@ $(function(){
 
       this.collection.bind('add', this.addStreamer);
       this.collection.bind('reset', this.addAllStreamers);
-      this.collection.bind('all', this.render);
+      //this.collection.bind('all', this.render);
     },
     
     render: function() {
@@ -261,7 +265,6 @@ $(function(){
       }
     }
   });
-  
   
   var Playlist = Backbone.Collection.extend({
     model: Streamer
@@ -336,8 +339,12 @@ $(function(){
     }
   });
   
-  var ExploreList = Backbone.Collection.extend({
-    model: Streamer
+  window.ExploreList = Backbone.Collection.extend({
+    model: Streamer,
+    
+    comparator: function(streamer) {
+      return -streamer.get('viewers');
+    }
   });
   
   var ExploreView = Backbone.View.extend({
@@ -381,7 +388,6 @@ $(function(){
         jsonpCallback: 'syncStreamer',
         success: function(data) {
           console.log('ajax success');
-          console.log(data);
           $.each(data, function(index, streamer) {
             var name = streamer.channel.title;
             var stream = streamer.channel.login;
@@ -473,8 +479,6 @@ $(function(){
     },
     
     render: function() {
-      // console.log('appview render');
-
       $(this.el).html(this.template({}));
       var all_view = new StreamerGroupView({ id: 'group-all', collection: this.collection, title: 'All', filter: '' });
       this.$('#main').append(all_view.render().el);
@@ -508,10 +512,6 @@ $(function(){
   
   window.library = new StreamerList;
   window.exploreLibrary = new ExploreList;
-  
-  exploreLibrary.comparator = function(streamer) {
-    return -streamer.get('viewers');
-  };
   
   var StreamerApp = Backbone.Router.extend({
     routes: {
