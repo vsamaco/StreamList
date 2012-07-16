@@ -91,6 +91,7 @@ $(function(){
       var viewer_value = this.inputViewers.val();
       var stream_value = this.inputStream.val();
       var service_value = this.inputService.val();
+      var online_value = (viewer_value > 0) ? true : false
       
       if (!name_value) this.clear();
       
@@ -98,7 +99,8 @@ $(function(){
         name: name_value,
         viewers: viewer_value,
         stream: stream_value,
-        service: service_value
+        service: service_value,
+        online: online_value
       });
       
       this.close();
