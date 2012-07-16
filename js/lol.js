@@ -88,7 +88,7 @@ $(function(){
     
     save: function() {
       var name_value = this.inputName.val();
-      var viewer_value = this.inputViewers.val();
+      var viewer_value = this.inputViewers.val() || 0;
       var stream_value = this.inputStream.val();
       var service_value = this.inputService.val();
       var online_value = (viewer_value > 0) ? true : false
