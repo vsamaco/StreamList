@@ -24,12 +24,60 @@
 		<div class="view">
 			<input class="toggle" type="checkbox" <%= online ? 'checked="checked"' : '' %> />
 			<label><%= name %></label>
+			<span class="viewers"><%= viewers %></span>
 			<a class="remove">remove</a>
 		</div>
-		<input class="editName" type="text" value="<%= name %>" />
-		<input class="editViewers" type="text" value="<%= viewers %>" />
+		<div class="edit">
+			<input class="editName" type="text" value="<%= name %>" placeholder="name"/>
+			<input class="editStream" type="text" value="<%= stream %>" placeholder="stream"/>
+			<input class="editService" type="text" value="<%= service %>" placeholder="service"/>
+			<input class="editViewers" type="text" value="<%= viewers %>" placeholder="viewers"/>
+			<button class="sync">Sync</button>
+			<button class="close">Close</button>
+			<button class="save">Save</button>
+			<div class="response"></div>
+		</div>
 	</script>
 	
+	<script type="text/template" id="playlist-template">
+		<h2>Playlist</h2>
+		<button class="control play">Play</button>
+		<button class="control stop">Stop</button>
+		<ul class="streamers"></ul>
+	</script>
+	
+	<script type="text/template" id="streamer-group">
+		<div class="header">
+			<div class="toggle-group collapsed">
+				<span class="collapsed">▼<span>
+			</div>
+			<h3 class="all"><%= title %></h3>
+			<span class="count"></span>
+		</div>
+		<ul id="streamer-list" class="list"></ul>
+	</script>
+	
+	<script type="text/template" id="explore-template">
+		<header>
+			<a href="" class="library">Library</a>
+			<h2>Explore</h2>
+		</header>
+		<button class="update">Update</button>
+		<section id="main"></section>
+		<footer></footer>
+	</script>
+	
+	<script type="text/template" id="library-template">
+		<header>
+			<a href="" class="explore">Explore</a>
+			<h2>Library</h2>
+			<input id="new-streamer" placeholder="Add new streamer" type="text"/>
+		</header>
+		<section id="main"></section>
+		<footer>
+			<div id="online-count"></div>
+		</footer>
+	</script>
 	<script type="text/template" id="stats-template">
 		<div class="online-count"><b><%= online %></b> online</div>
 		<div class="offline-count"><b><%= offline %></b> offline</div>
