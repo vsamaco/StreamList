@@ -268,6 +268,30 @@ $(function(){
     }
   });
   
+  var ExploreStreamerView = StreamerView.extend({
+    events: {},
+    
+    render: function() {
+      // console.log('explore streamerview render');
+      this.$el.html(this.template(this.model.toJSON()));
+      
+      if(_.include(window.library.pluck('stream'), this.model.get('stream'))) {
+        this.$el.toggleClass('favorite', true);
+      }
+      
+      return this;
+    }
+  });
+  
+  var ExploreStreamerGroupView = StreamerGroupView.extend({    
+    addStreamer: function(streamer) {
+      var view_all = new ExploreStreamerView({model: streamer});
+      this.$('ul').append(view_all.render().el);
+    }
+  });
+  
+  
+  
   var Playlist = Backbone.Collection.extend({
     model: Streamer
   });
@@ -367,7 +391,7 @@ $(function(){
     render: function() {
       $(this.el).html(this.template({}));
       
-      var all_view = new StreamerGroupView({ id: 'group-explore', collection: this.collection, title: 'League of Legends', filter: '' });
+      var all_view = new ExploreStreamerGroupView({ id: 'group-explore', collection: this.collection, title: 'League of Legends', filter: '' });
       this.$('#main').append(all_view.render().el);
       
       return this;
