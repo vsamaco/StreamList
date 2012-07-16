@@ -73,6 +73,13 @@
 		<div class="online-count"><b><%= online %></b> online</div>
 		<div class="offline-count"><b><%= offline %></b> offline</div>
 	</script>
+	
+	<script type="text/javascript">
+	$(function() {
+	  var App = new StreamerApp;
+	  Backbone.history.start();
+	});
+	</script>
 </head>
 <body>
 	<div id="lolapp"></div>

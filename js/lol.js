@@ -513,7 +513,7 @@ $(function(){
   window.library = new StreamerList;
   window.exploreLibrary = new ExploreList;
   
-  var StreamerApp = Backbone.Router.extend({
+  window.StreamerApp = Backbone.Router.extend({
     routes: {
       ''        : 'home',
       'blank'   : 'blank',
@@ -549,10 +549,6 @@ $(function(){
       $("#lolapp").text('blank');
     }
   });
-
-  
-  var App = new StreamerApp;
-  Backbone.history.start();
   
 });
 
