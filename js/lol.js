@@ -452,7 +452,7 @@ $(function(){
     },
     
     goLibrary: function(e) {
-      App.navigate('', {trigger: true});
+      window.App.navigate('', {trigger: true});
       e.preventDefault();
     }
   });
@@ -505,8 +505,7 @@ $(function(){
     },
     
     navExplore: function(e) {
-      console.log('nav explore');
-      App.navigate('explore', {trigger: true});
+      window.App.navigate('explore', {trigger: true});
       e.preventDefault();
     }
 
