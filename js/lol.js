@@ -269,7 +269,9 @@ $(function(){
   });
   
   var ExploreStreamerView = StreamerView.extend({
-    events: {},
+    events: {
+      'click .toggle' : 'toggleLibrary'
+    },
     
     render: function() {
       // console.log('explore streamerview render');
@@ -277,9 +279,30 @@ $(function(){
       
       if(_.include(window.library.pluck('stream'), this.model.get('stream'))) {
         this.$el.toggleClass('favorite', true);
+        this.$('.toggle').prop('checked', true);
       }
       
       return this;
+    },
+    
+    toggleLibrary: function(e) {
+      console.log('toggle library:' + this.model.get('name'));
+      if(!_.include(window.library.pluck('stream'), this.model.get('stream'))) {
+        if(this.$('.toggle').prop('checked')) {
+          console.log('must be a new stream add to library');
+          window.library.create({
+            'name': this.model.get('name'),
+            'stream': this.model.get('stream'),
+            'viewers': this.model.get('viewers'),
+            'online': true
+          });
+        }
+      } else {
+        console.log('stream already exist');
+        if(!this.$('.toggle').prop('checked')) {
+          console.log('remove me from library');
+        }
+      }
     }
   });
   
