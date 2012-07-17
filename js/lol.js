@@ -287,7 +287,9 @@ $(function(){
     
     toggleLibrary: function(e) {
       console.log('toggle library:' + this.model.get('name'));
-      if(!_.include(window.library.pluck('stream'), this.model.get('stream'))) {
+      libraryStreamers = window.library.where({'stream': this.model.get('stream')});
+      console.log(libraryStreamers.length);
+      if(libraryStreamers.length == 0) {
         if(this.$('.toggle').prop('checked')) {
           console.log('must be a new stream add to library');
           window.library.create({
@@ -298,9 +300,14 @@ $(function(){
           });
         }
       } else {
+        var self = this;
         console.log('stream already exist');
         if(!this.$('.toggle').prop('checked')) {
           console.log('remove me from library');
+          // Why does collection.remove not save results on reload?
+          _.each(libraryStreamers, function(streamer) {
+            streamer.destroy();
+          });
         }
       }
     }
@@ -499,8 +506,8 @@ $(function(){
     },
     
     goLibrary: function(e) {
-      window.App.navigate('', {trigger: true});
       e.preventDefault();
+      window.App.navigate('', {trigger: true});
     }
   });
   
@@ -552,8 +559,8 @@ $(function(){
     },
     
     navExplore: function(e) {
-      window.App.navigate('explore', {trigger: true});
       e.preventDefault();
+      window.App.navigate('explore', {trigger: true});
     }
 
   });
