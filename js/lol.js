@@ -277,7 +277,7 @@ $(function(){
       // console.log('explore streamerview render');
       this.$el.html(this.template(this.model.toJSON()));
       
-      if(_.include(window.library.pluck('stream'), this.model.get('stream'))) {
+      if(window.library.where({'stream': this.model.get('stream')}).length > 0) {
         this.$el.toggleClass('favorite', true);
         this.$('.toggle').prop('checked', true);
       }
