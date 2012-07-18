@@ -407,7 +407,7 @@ $(function(){
     template: _.template($('#explore-template').html()),
     events: {
       'click .update' : 'updateStreamers',
-      'click .library': 'goLibrary'
+      'click .library': 'navLibrary'
     },
     
     initialize: function() {
@@ -505,8 +505,7 @@ $(function(){
       });
     },
     
-    goLibrary: function(e) {
-      e.preventDefault();
+    navLibrary: function(e) {
       window.App.navigate('', {trigger: true});
     }
   });
@@ -559,7 +558,6 @@ $(function(){
     },
     
     navExplore: function(e) {
-      e.preventDefault();
       window.App.navigate('explore', {trigger: true});
     }
 
@@ -571,7 +569,6 @@ $(function(){
   window.StreamerApp = Backbone.Router.extend({
     routes: {
       ''        : 'home',
-      'blank'   : 'blank',
       'explore' : 'explore'
     },
     
